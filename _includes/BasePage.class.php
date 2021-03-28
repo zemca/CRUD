@@ -26,7 +26,7 @@ abstract class BasePage
 
 
         } catch (Exception $e) {
-//            dumpe($e);
+
             $ePage = new ErrorPage();
             $ePage->render();
         }

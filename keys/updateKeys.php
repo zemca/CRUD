@@ -39,7 +39,7 @@ final class UpdateKeysPage extends BaseCRUDPage
         if($this->state === self::STATE_PROCESSED) {
             // je hotovo, reportujeme
             if ($this->result === self::RESULT_SUCCESS){
-                $this->extraHeaders[] = "<meta http-equiv='refresh' content='3;url=../employees/employee.php?employee_id='>";
+                $this->extraHeaders[] = "<meta http-equiv='refresh' content='3;url=../employees/employee.php?employeeId=". $this->sesionStorage->get('id') ."'>";
                 $this->title = "Klíč upraven";
             } elseif ($this->result === self::RESULT_FAIL){
                 $this->title = "Aktualizace klíče selhala";
@@ -47,6 +47,7 @@ final class UpdateKeysPage extends BaseCRUDPage
         } elseif ($this->state === self::STATE_FORM_SENT){
             // načíst data
             $this->key = $this->readPost();
+            $this->sesionStorage->set('id', $this->key->employee);
             // validovat data
             if ($this->key->isValid()){
                 // uložit a přesměrovat
@@ -61,6 +62,7 @@ final class UpdateKeysPage extends BaseCRUDPage
                 elseif ($this->update === 0) {
                     if ($this->key->delete()){
                         $this->sesionStorage->set($token, ['result' => self::RESULT_SUCCESS ]);
+
                     } else {
                         $this->sesionStorage->set($token, ['result' => self::RESULT_FAIL ]);
                     }
@@ -86,23 +88,23 @@ final class UpdateKeysPage extends BaseCRUDPage
         }
 
     }
-//
+
     protected function body(): string
     {
         if($this->state === self::STATE_FORM_REQUESTED) {
             return $this->m->render("keyForm", ['update' => $this->update, 'key' => $this->key, 'rooms' => $this->rooms ]);
         } elseif ($this->state === self::STATE_PROCESSED) {
             if ($this->result === self::RESULT_SUCCESS){
-                return $this->m->render("keySuccess", ["message" => "Upravení zaměstnance proběhlo úspěšně", "employeeId" => $this->findId()]);
+                return $this->m->render("keySuccess", ["message" => "Upravení zaměstnance proběhlo úspěšně", "employeeId" => $this->sesionStorage->get('id')]);
             } elseif ($this->result === self::RESULT_FAIL){
-                return $this->m->render("keyFail", ["message" => "Upravení zaměstnance selhalo", "employeeId" => $this->findId()]);
+                return $this->m->render("keyFail", ["message" => "Upravení zaměstnance selhalo", "employeeId" => $this->sesionStorage->get('id')]);
             }
         } elseif ($this->state === self::STATE_REJECTED){
             return $this->m->render("fail", ["message" => "Nejste přihlášen, nebo nemáte dostatečná práva"]);
         }
 
     }
-//
+
     protected function getSate() : int {
         if($this->isProcessed()){
             return self::STATE_PROCESSED;
