@@ -1,0 +1,38 @@
+<h1>Seznam místnostní</h1>
+
+<form action="../login/logout.php" method="post" class="form-inline" onsubmit="return confirm('Opravdu se chcete odhlásit?')">
+    <input type="hidden" name="room_id" value="{{ room_id }}">
+    <input type="submit" value="Odhlásit se" class="btn btn-danger">
+</form>
+
+<a href="createRoom.php" class="btn btn-primary">Nová místnost</a>
+
+<table class="table table-striped roomList">
+    <thead>
+    <tr>
+        <th>Jméno</th>
+        <th>Číslo</th>
+        <th>Telefon</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {{# rooms}}
+        <tr>
+            <td><a href="{{roomDetail}}?roomId={{ room_id }}">{{ name }}</a></td>
+            <td>{{ no }}</td>
+            <td>{{ phone }}</td>
+            <td>
+                <a href="updateRoom.php?room_id={{ room_id }}" class="btn btn-primary">Upravit</a>
+                <form action="deleteRoom.php" method="post" class="form-inline" onsubmit="return confirm('Opravdu chcete smazat?\nAkce je nevratná!')">
+                    <input type="hidden" name="room_id" value="{{ room_id }}">
+                    <input type="submit" value="Smazat" class="btn btn-danger">
+                </form>
+            </td>
+        </tr>
+    {{/rooms}}
+    </tbody>
+</table>
+
+<a href="../index.php" class="btn">Zpět na úvod</a>

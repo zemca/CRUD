@@ -1,0 +1,41 @@
+<h1>Seznam zaměstnanců</h1>
+
+<form action="../login/logout.php" method="post" class="form-inline" onsubmit="return confirm('Opravdu se chcete odhlásit?')">
+    <input type="hidden" name="room_id" value="{{ room_id }}">
+    <input type="submit" value="Odhlásit se" class="btn btn-danger">
+</form>
+
+<a href="createEmployee.php" class="btn btn-primary">Nový zaměstnanec</a>
+
+<table class="table table-striped employeeList">
+    <thead>
+    <tr>
+        <th>Jméno</th>
+        <th>Místnost</th>
+        <th>Telefon</th>
+        <th>Pozice</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {{# employees}}
+        <tr>
+            <td><a href="{{employeeDetail}}?employeeId={{ employee_id }}">{{ surname }} {{employeename}}</a></td>
+            <td>{{ name }}</td>
+            <td>{{ phone }}</td>
+            <td>{{ job }}</td>
+            <td>
+                <a href="updateEmployee.php?employee_id={{ employee_id }}" class="btn btn-primary">Upravit</a>
+                <form action="deleteEmployee.php" method="post" class="form-inline" onsubmit="return confirm('Opravdu chcete smazat?\nAkce je nevratná!')">
+                    <input type="hidden" name="employee_id" value="{{ employee_id }}">
+                    <input type="submit" value="Smazat" class="btn btn-danger">
+                </form>
+                <a href="updatePasswordEmployee.php?employee_id={{ employee_id }}" class="btn btn-primary">Upravit heslo</a>
+            </td>
+        </tr>
+    {{/employees}}
+    </tbody>
+</table>
+
+<a href="../index.php" class="btn">Zpět na úvod</a>

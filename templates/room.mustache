@@ -1,0 +1,22 @@
+{{# room}}
+    <h1>Místnost č. {{no}}</h1>
+
+    <dl class='dl-horizontal'>
+    <dt>Číslo</dt>
+        <dd>{{no}}</dd>
+    <dt>Název</dt>
+        <dd>{{rname}}</dd>
+    <dt>Telefon</dt>
+        <dd>{{phone}}</dd>
+    <dt>Lidé</dt>
+        {{# employees}}
+            <dd><a href='../employees/employee.php?employeeId={{employee_id}}'> {{surname}} {{name}}</a></dd>
+        {{/ employees}}
+    <dt>Klíče</dt>
+        {{# keys}}
+            <dd><a href='../employees/employee.php?employeeId={{employee_id}}'> {{surname}} {{name}}</a></dd>
+        {{/keys}}
+    </dl>
+{{/room}}
+
+<p><a href='../rooms/roomList.php'><span class='glyphicon glyphicon-arrow-left' aria-hidden='true'></span> Zpět na seznam místností</a></p>

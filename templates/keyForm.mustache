@@ -1,0 +1,26 @@
+<h1>Aktualizace klíčů</h1>
+
+
+<form method="post">
+    <div class="mb-3">
+        <label for="room">Místnost</label>
+        <select type="text" name="room" id="room" required class="form-control">
+            {{#rooms}}
+                <option value="{{room_id}}">{{name}}</option>
+            {{/rooms}}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        {{#update}}
+            <input type="hidden" name="action" value="update">
+            <input type="hidden" name="employee" value="{{key.employee}}">
+            <input type="submit" value="Přidat" class="btn btn-primary">
+        {{/update}}
+        {{^update}}
+            <input type="hidden" name="action" value="update">
+            <input type="hidden" name="employee" value="{{key.employee}}">
+            <input type="submit" value="Smazat" class="btn btn-danger">
+        {{/update}}
+    </div>
+</form>
